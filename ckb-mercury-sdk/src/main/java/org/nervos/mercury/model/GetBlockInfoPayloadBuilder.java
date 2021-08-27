@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import org.nervos.mercury.model.req.payload.getBlockInfoPayload;
 
 /** @author zjh @Created Date: 2021/7/20 @Description: @Modify by: */
-public class getBlockInfoPayloadBuilder extends getBlockInfoPayload {
+public class GetBlockInfoPayloadBuilder extends getBlockInfoPayload {
 
   public void blockNum(BigInteger blockNum) {
     this.blockNum = blockNum;

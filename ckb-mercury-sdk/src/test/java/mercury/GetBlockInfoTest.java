@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import mercury.constant.MercuryApiFactory;
 import org.junit.jupiter.api.Test;
-import org.nervos.mercury.model.getBlockInfoPayloadBuilder;
+import org.nervos.mercury.model.GetBlockInfoPayloadBuilder;
 import org.nervos.mercury.model.resp.BlockInfoResponse;
 
 /** @author zjh @Created Date: 2021/7/20 @Description: @Modify by: */
@@ -15,7 +15,7 @@ public class GetBlockInfoTest {
   void testGetGenericBlockWithBlockNumber() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
       builder.blockNum(new BigInteger("2172093"));
 
       System.out.println(new Gson().toJson(builder.build()));
@@ -32,7 +32,7 @@ public class GetBlockInfoTest {
   void testGetGenericBlockWithBlockHash() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
       builder.blockHash("0xee8adba356105149cb9dc1cb0d09430a6bd01182868787ace587961c0d64e742");
 
       System.out.println(new Gson().toJson(builder.build()));
@@ -49,7 +49,7 @@ public class GetBlockInfoTest {
   void testGetGenericBlockWithBlockHashAndBlockNumber() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
       builder.blockNum(new BigInteger("2172093"));
       builder.blockHash("0xee8adba356105149cb9dc1cb0d09430a6bd01182868787ace587961c0d64e742");
 
@@ -67,7 +67,7 @@ public class GetBlockInfoTest {
   void testTipGenericBlock() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
 
       // Request parameter is empty
       System.out.println(new Gson().toJson(builder.build()));
@@ -84,7 +84,7 @@ public class GetBlockInfoTest {
   void testBlockHashAndBlockNumberDoNotMatch() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
       builder.blockNum(new BigInteger("2172092"));
       builder.blockHash("0xee8adba356105149cb9dc1cb0d09430a6bd01182868787ace587961c0d64e742");
 
@@ -101,7 +101,7 @@ public class GetBlockInfoTest {
   void testCannotFind() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
       builder.blockHash("0xee8adba356105149cb9dc1cb0d09430a6bd01182868787ace587961c0d64e741");
 
       System.out.println(new Gson().toJson(builder.build()));
@@ -121,7 +121,7 @@ public class GetBlockInfoTest {
   void testWrongHeight() {
     try {
 
-      getBlockInfoPayloadBuilder builder = new getBlockInfoPayloadBuilder();
+      GetBlockInfoPayloadBuilder builder = new GetBlockInfoPayloadBuilder();
       builder.blockNum(new BigInteger("217209233"));
 
       System.out.println(new Gson().toJson(builder.build()));
