@@ -3,7 +3,8 @@ package org.nervos.mercury;
 import java.io.IOException;
 import java.util.List;
 import org.nervos.mercury.model.common.PaginationResponse;
-import org.nervos.mercury.model.req.lumos.QueryResponse;
+import org.nervos.mercury.model.req.lumos.LumosCell;
+import org.nervos.mercury.model.req.lumos.LumosTransaction;
 import org.nervos.mercury.model.req.payload.AdvanceQueryPayload;
 import org.nervos.mercury.model.req.payload.CreateAssetAccountPayload;
 import org.nervos.mercury.model.req.payload.DepositPayload;
@@ -18,7 +19,8 @@ import org.nervos.mercury.model.resp.BlockInfoResponse;
 import org.nervos.mercury.model.resp.GetBalanceResponse;
 import org.nervos.mercury.model.resp.GetTransactionInfoResponse;
 import org.nervos.mercury.model.resp.TransactionCompletionResponse;
-import org.nervos.mercury.model.resp.TxView;
+import org.nervos.mercury.model.resp.TransactionInfo;
+import org.nervos.mercury.model.resp.TransactionView;
 import org.nervos.mercury.model.resp.info.DBInfo;
 import org.nervos.mercury.model.resp.info.MercuryInfo;
 
@@ -41,13 +43,23 @@ public interface MercuryApi {
 
   List<String> registerAddresses(List<String> normalAddresses) throws IOException;
 
-  <T extends TxView> PaginationResponse<T> queryTransactions(QueryTransactionsPayload payload)
+  PaginationResponse<TransactionView> queryTransactionsWithTransactionView(
+      QueryTransactionsPayload payload) throws IOException;
+
+  PaginationResponse<TransactionInfo> queryTransactionsWithTransactionInfo(
+      QueryTransactionsPayload payload) throws IOException;
+
+  TransactionView getSpentTransactionWithTransactionView(GetSpentTransactionPayload payload)
       throws IOException;
 
-  <T extends TxView> T getSpentTransaction(GetSpentTransactionPayload payload) throws IOException;
-
-  <T extends QueryResponse> PaginationResponse<T> advanceQuery(AdvanceQueryPayload payload)
+  TransactionInfo getSpentTransactionWithTransactionInfo(GetSpentTransactionPayload payload)
       throws IOException;
+
+  PaginationResponse<LumosCell> advanceQueryWithCell(AdvanceQueryPayload payload)
+      throws IOException;
+
+  PaginationResponse<LumosTransaction> advanceQueryWithCellWithTransaction(
+      AdvanceQueryPayload payload) throws IOException;
 
   TransactionCompletionResponse buildDepositTransaction(DepositPayload payload) throws IOException;
 

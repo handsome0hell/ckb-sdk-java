@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.nervos.ckb.type.OutPoint;
 import org.nervos.mercury.model.GetSpentTransactionPayloadBuilder;
 import org.nervos.mercury.model.req.ViewType;
-import org.nervos.mercury.model.resp.TransactionInfo;
+import org.nervos.mercury.model.resp.TransactionView;
 
 public class getSpentTransactionTest {
 
@@ -20,13 +20,13 @@ public class getSpentTransactionTest {
 
     System.out.println(new Gson().toJson(builder.build()));
 
-    TransactionInfo spentTransaction = null;
+    TransactionView view = null;
     try {
-      spentTransaction = MercuryApiFactory.getApi().getSpentTransaction(builder.build());
+      view = MercuryApiFactory.getApi().getSpentTransactionWithTransactionView(builder.build());
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    System.out.println(new Gson().toJson(spentTransaction));
+    System.out.println(new Gson().toJson(view));
   }
 }

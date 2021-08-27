@@ -39,7 +39,8 @@ import org.nervos.indexer.model.resp.TransactionResponse;
 import org.nervos.mercury.DefaultMercuryApi;
 import org.nervos.mercury.MercuryApi;
 import org.nervos.mercury.model.common.PaginationResponse;
-import org.nervos.mercury.model.req.lumos.QueryResponse;
+import org.nervos.mercury.model.req.lumos.LumosCell;
+import org.nervos.mercury.model.req.lumos.LumosTransaction;
 import org.nervos.mercury.model.req.payload.AdvanceQueryPayload;
 import org.nervos.mercury.model.req.payload.CreateAssetAccountPayload;
 import org.nervos.mercury.model.req.payload.DepositPayload;
@@ -54,7 +55,8 @@ import org.nervos.mercury.model.resp.BlockInfoResponse;
 import org.nervos.mercury.model.resp.GetBalanceResponse;
 import org.nervos.mercury.model.resp.GetTransactionInfoResponse;
 import org.nervos.mercury.model.resp.TransactionCompletionResponse;
-import org.nervos.mercury.model.resp.TxView;
+import org.nervos.mercury.model.resp.TransactionInfo;
+import org.nervos.mercury.model.resp.TransactionView;
 import org.nervos.mercury.model.resp.info.DBInfo;
 import org.nervos.mercury.model.resp.info.MercuryInfo;
 
@@ -339,21 +341,39 @@ public class DefaultCkbApi implements CkbApi {
   }
 
   @Override
-  public <T extends TxView> PaginationResponse<T> queryTransactions(
+  public PaginationResponse<TransactionView> queryTransactionsWithTransactionView(
       QueryTransactionsPayload payload) throws IOException {
-    return this.mercuryApi.queryTransactions(payload);
+    return this.mercuryApi.queryTransactionsWithTransactionView(payload);
   }
 
   @Override
-  public <T extends TxView> T getSpentTransaction(GetSpentTransactionPayload payload)
-      throws IOException {
-    return this.mercuryApi.getSpentTransaction(payload);
+  public PaginationResponse<TransactionInfo> queryTransactionsWithTransactionInfo(
+      QueryTransactionsPayload payload) throws IOException {
+    return this.mercuryApi.queryTransactionsWithTransactionInfo(payload);
   }
 
   @Override
-  public <T extends QueryResponse> PaginationResponse<T> advanceQuery(AdvanceQueryPayload payload)
+  public TransactionView getSpentTransactionWithTransactionView(GetSpentTransactionPayload payload)
       throws IOException {
-    return this.mercuryApi.advanceQuery(payload);
+    return this.mercuryApi.getSpentTransactionWithTransactionView(payload);
+  }
+
+  @Override
+  public TransactionInfo getSpentTransactionWithTransactionInfo(GetSpentTransactionPayload payload)
+      throws IOException {
+    return this.mercuryApi.getSpentTransactionWithTransactionInfo(payload);
+  }
+
+  @Override
+  public PaginationResponse<LumosCell> advanceQueryWithCell(AdvanceQueryPayload payload)
+      throws IOException {
+    return this.mercuryApi.advanceQueryWithCell(payload);
+  }
+
+  @Override
+  public PaginationResponse<LumosTransaction> advanceQueryWithCellWithTransaction(
+      AdvanceQueryPayload payload) throws IOException {
+    return this.mercuryApi.advanceQueryWithCellWithTransaction(payload);
   }
 
   @Override

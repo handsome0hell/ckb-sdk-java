@@ -4,17 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import org.nervos.ckb.service.RpcService;
-import org.nervos.mercury.model.common.Claimable;
-import org.nervos.mercury.model.common.Fixed;
+import org.nervos.mercury.model.common.ExtraFilter;
 import org.nervos.mercury.model.common.PaginationResponse;
-import org.nervos.mercury.model.common.Status;
+import org.nervos.mercury.model.common.RecordStatus;
 import org.nervos.mercury.model.req.lumos.LumosCell;
 import org.nervos.mercury.model.req.lumos.LumosTransaction;
-import org.nervos.mercury.model.req.lumos.QueryResponse;
 import org.nervos.mercury.model.req.payload.AdvanceQueryPayload;
 import org.nervos.mercury.model.req.payload.CreateAssetAccountPayload;
 import org.nervos.mercury.model.req.payload.DepositPayload;
@@ -31,7 +28,6 @@ import org.nervos.mercury.model.resp.GetTransactionInfoResponse;
 import org.nervos.mercury.model.resp.TransactionCompletionResponse;
 import org.nervos.mercury.model.resp.TransactionInfo;
 import org.nervos.mercury.model.resp.TransactionView;
-import org.nervos.mercury.model.resp.TxView;
 import org.nervos.mercury.model.resp.info.DBInfo;
 import org.nervos.mercury.model.resp.info.MercuryInfo;
 
@@ -40,12 +36,8 @@ public class DefaultMercuryApi implements MercuryApi {
   private RpcService rpcService;
   private Gson g =
       new GsonBuilder()
-          .registerTypeAdapter(Status.class, new Claimable(BigInteger.ZERO))
-          .registerTypeAdapter(Status.class, new Fixed(BigInteger.ZERO))
-          .registerTypeAdapter(TxView.class, new TransactionInfo())
-          .registerTypeAdapter(TxView.class, new TransactionView())
-          .registerTypeAdapter(QueryResponse.class, new LumosCell())
-          .registerTypeAdapter(QueryResponse.class, new LumosTransaction())
+          .registerTypeAdapter(RecordStatus.class, new RecordStatus())
+          .registerTypeAdapter(ExtraFilter.class, new ExtraFilter())
           .create();
 
   public DefaultMercuryApi(String mercuryUrl, boolean isDebug) {
@@ -122,23 +114,48 @@ public class DefaultMercuryApi implements MercuryApi {
   }
 
   @Override
-  public <T extends TxView> PaginationResponse<T> queryTransactions(
+  public PaginationResponse<TransactionView> queryTransactionsWithTransactionView(
       QueryTransactionsPayload payload) throws IOException {
     return this.rpcService.post(
-        RpcMethods.QUERY_TRANSACTIONS, Arrays.asList(payload), PaginationResponse.class);
+        RpcMethods.QUERY_TRANSACTIONS,
+        Arrays.asList(payload),
+        new TypeToken<PaginationResponse<TransactionView>>() {}.getType());
   }
 
   @Override
-  public <T extends TxView> T getSpentTransaction(GetSpentTransactionPayload payload)
+  public PaginationResponse<TransactionInfo> queryTransactionsWithTransactionInfo(
+      QueryTransactionsPayload payload) throws IOException {
+    return this.rpcService.post(
+        RpcMethods.QUERY_TRANSACTIONS,
+        Arrays.asList(payload),
+        new TypeToken<PaginationResponse<TransactionInfo>>() {}.getType());
+  }
+
+  @Override
+  public TransactionView getSpentTransactionWithTransactionView(GetSpentTransactionPayload payload)
       throws IOException {
     return this.rpcService.post(
-        RpcMethods.GET_SPENT_TRANSACTION, Arrays.asList(payload), Object.class);
+        RpcMethods.GET_SPENT_TRANSACTION, Arrays.asList(payload), TransactionView.class);
   }
 
   @Override
-  public <T extends QueryResponse> PaginationResponse<T> advanceQuery(AdvanceQueryPayload payload)
+  public TransactionInfo getSpentTransactionWithTransactionInfo(GetSpentTransactionPayload payload)
       throws IOException {
-    return this.rpcService.post(RpcMethods.ADVANCE_QUERY, Arrays.asList(payload), Object.class);
+    return this.rpcService.post(
+        RpcMethods.GET_SPENT_TRANSACTION, Arrays.asList(payload), TransactionInfo.class);
+  }
+
+  @Override
+  public PaginationResponse<LumosCell> advanceQueryWithCell(AdvanceQueryPayload payload)
+      throws IOException {
+    return this.rpcService.post(RpcMethods.ADVANCE_QUERY, Arrays.asList(payload), LumosCell.class);
+  }
+
+  @Override
+  public PaginationResponse<LumosTransaction> advanceQueryWithCellWithTransaction(
+      AdvanceQueryPayload payload) throws IOException {
+    return this.rpcService.post(
+        RpcMethods.ADVANCE_QUERY, Arrays.asList(payload), LumosTransaction.class);
   }
 
   @Override

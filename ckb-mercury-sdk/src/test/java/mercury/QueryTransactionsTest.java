@@ -31,7 +31,7 @@ public class QueryTransactionsTest {
       System.out.println(new Gson().toJson(builder.build()));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -49,7 +49,7 @@ public class QueryTransactionsTest {
       builder.addAssetInfo(AssetInfo.newUdtAseet(UdtHolder.UDT_HASH));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -69,7 +69,7 @@ public class QueryTransactionsTest {
       System.out.println(new Gson().toJson(builder.build()));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -86,7 +86,7 @@ public class QueryTransactionsTest {
       builder.item(new Address(getChequeAddress()));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -103,7 +103,7 @@ public class QueryTransactionsTest {
       builder.item(new Address(getAcpAddress()));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -121,7 +121,7 @@ public class QueryTransactionsTest {
       builder.range(new Range(new BigInteger("2224987"), null));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -139,7 +139,7 @@ public class QueryTransactionsTest {
       builder.range(new Range(null, new BigInteger("2224987")));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -159,7 +159,7 @@ public class QueryTransactionsTest {
       System.out.println(new Gson().toJson(builder.build()));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -178,7 +178,7 @@ public class QueryTransactionsTest {
       builder.limit(new BigInteger("2"));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -197,7 +197,7 @@ public class QueryTransactionsTest {
       builder.order("asc");
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));
@@ -216,7 +216,7 @@ public class QueryTransactionsTest {
       builder.cursor(new BigInteger("1"));
 
       PaginationResponse<TransactionView> resp =
-          MercuryApiFactory.getApi().queryTransactions(builder.build());
+          MercuryApiFactory.getApi().queryTransactionsWithTransactionView(builder.build());
 
       System.out.println(resp.response.size());
       System.out.println(g.toJson(resp));

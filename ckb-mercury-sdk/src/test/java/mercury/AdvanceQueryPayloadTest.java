@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.nervos.ckb.type.Script;
 import org.nervos.mercury.model.AdvanceQueryPayloadBuilder;
 import org.nervos.mercury.model.common.PaginationResponse;
-import org.nervos.mercury.model.req.lumos.QueryResponse;
+import org.nervos.mercury.model.req.lumos.LumosCell;
 import org.nervos.mercury.model.req.lumos.QueryType;
 import org.nervos.mercury.model.req.lumos.ScriptWrapper;
 
@@ -28,8 +28,8 @@ public class AdvanceQueryPayloadTest {
     System.out.println(new Gson().toJson(builder.build()));
 
     try {
-      PaginationResponse<QueryResponse> queryResponsePaginationResponse =
-          MercuryApiFactory.getApi().advanceQuery(builder.build());
+      PaginationResponse<LumosCell> cells =
+          MercuryApiFactory.getApi().advanceQueryWithCell(builder.build());
     } catch (IOException e) {
       e.printStackTrace();
     }
