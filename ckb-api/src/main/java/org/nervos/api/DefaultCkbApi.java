@@ -38,17 +38,25 @@ import org.nervos.indexer.model.resp.TipResponse;
 import org.nervos.indexer.model.resp.TransactionResponse;
 import org.nervos.mercury.DefaultMercuryApi;
 import org.nervos.mercury.MercuryApi;
-import org.nervos.mercury.model.req.CollectAssetPayload;
-import org.nervos.mercury.model.req.CreateAssetAccountPayload;
-import org.nervos.mercury.model.req.GetBalancePayload;
-import org.nervos.mercury.model.req.GetGenericBlockPayload;
-import org.nervos.mercury.model.req.QueryGenericTransactionsPayload;
-import org.nervos.mercury.model.req.TransferPayload;
-import org.nervos.mercury.model.resp.GenericBlockResponse;
-import org.nervos.mercury.model.resp.GenericTransactionWithStatusResponse;
+import org.nervos.mercury.model.common.PaginationResponse;
+import org.nervos.mercury.model.req.lumos.QueryResponse;
+import org.nervos.mercury.model.req.payload.AdvanceQueryPayload;
+import org.nervos.mercury.model.req.payload.CreateAssetAccountPayload;
+import org.nervos.mercury.model.req.payload.DepositPayload;
+import org.nervos.mercury.model.req.payload.GetBalancePayload;
+import org.nervos.mercury.model.req.payload.GetSpentTransactionPayload;
+import org.nervos.mercury.model.req.payload.QueryTransactionsPayload;
+import org.nervos.mercury.model.req.payload.SmartTransferPayload;
+import org.nervos.mercury.model.req.payload.TransferPayload;
+import org.nervos.mercury.model.req.payload.WithdrawPayload;
+import org.nervos.mercury.model.req.payload.getBlockInfoPayload;
+import org.nervos.mercury.model.resp.BlockInfoResponse;
 import org.nervos.mercury.model.resp.GetBalanceResponse;
-import org.nervos.mercury.model.resp.QueryGenericTransactionsResponse;
+import org.nervos.mercury.model.resp.GetTransactionInfoResponse;
 import org.nervos.mercury.model.resp.TransactionCompletionResponse;
+import org.nervos.mercury.model.resp.TxView;
+import org.nervos.mercury.model.resp.info.DBInfo;
+import org.nervos.mercury.model.resp.info.MercuryInfo;
 
 /** Copyright © 2019 Nervos Foundation. All rights reserved. */
 public class DefaultCkbApi implements CkbApi {
@@ -304,20 +312,25 @@ public class DefaultCkbApi implements CkbApi {
   }
 
   @Override
+  public TransactionCompletionResponse buildSmartTransferTransaction(SmartTransferPayload payload)
+      throws IOException {
+    return this.mercuryApi.buildSmartTransferTransaction(payload);
+  }
+
+  @Override
   public TransactionCompletionResponse buildAssetAccountCreationTransaction(
       CreateAssetAccountPayload payload) throws IOException {
     return this.mercuryApi.buildAssetAccountCreationTransaction(payload);
   }
 
   @Override
-  public GenericTransactionWithStatusResponse getGenericTransaction(String txHash)
-      throws IOException {
-    return this.mercuryApi.getGenericTransaction(txHash);
+  public GetTransactionInfoResponse getTransactionInfo(String txHash) throws IOException {
+    return this.mercuryApi.getTransactionInfo(txHash);
   }
 
   @Override
-  public GenericBlockResponse getGenericBlock(GetGenericBlockPayload payload) throws IOException {
-    return this.mercuryApi.getGenericBlock(payload);
+  public BlockInfoResponse getBlockInfo(getBlockInfoPayload payload) throws IOException {
+    return this.mercuryApi.getBlockInfo(payload);
   }
 
   @Override
@@ -326,14 +339,42 @@ public class DefaultCkbApi implements CkbApi {
   }
 
   @Override
-  public TransactionCompletionResponse buildAssetCollectionTransaction(CollectAssetPayload payload)
-      throws IOException {
-    return this.mercuryApi.buildAssetCollectionTransaction(payload);
+  public <T extends TxView> PaginationResponse<T> queryTransactions(
+      QueryTransactionsPayload payload) throws IOException {
+    return this.mercuryApi.queryTransactions(payload);
   }
 
   @Override
-  public QueryGenericTransactionsResponse queryGenericTransactions(
-      QueryGenericTransactionsPayload payload) throws IOException {
-    return this.mercuryApi.queryGenericTransactions(payload);
+  public <T extends TxView> T getSpentTransaction(GetSpentTransactionPayload payload)
+      throws IOException {
+    return this.mercuryApi.getSpentTransaction(payload);
+  }
+
+  @Override
+  public <T extends QueryResponse> PaginationResponse<T> advanceQuery(AdvanceQueryPayload payload)
+      throws IOException {
+    return this.mercuryApi.advanceQuery(payload);
+  }
+
+  @Override
+  public TransactionCompletionResponse buildDepositTransaction(DepositPayload payload)
+      throws IOException {
+    return this.mercuryApi.buildDepositTransaction(payload);
+  }
+
+  @Override
+  public TransactionCompletionResponse buildWithdrawTransaction(WithdrawPayload payload)
+      throws IOException {
+    return this.mercuryApi.buildWithdrawTransaction(payload);
+  }
+
+  @Override
+  public MercuryInfo getMercuryInfo() throws IOException {
+    return this.mercuryApi.getMercuryInfo();
+  }
+
+  @Override
+  public DBInfo getDbInfo() throws IOException {
+    return this.mercuryApi.getDbInfo();
   }
 }

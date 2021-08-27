@@ -3,21 +3,35 @@ package org.nervos.mercury.model;
 import java.math.BigInteger;
 import java.util.HashSet;
 import org.nervos.mercury.FeeConstant;
-import org.nervos.mercury.model.req.CreateAssetAccountPayload;
+import org.nervos.mercury.model.common.AssetInfo;
+import org.nervos.mercury.model.req.item.Item;
+import org.nervos.mercury.model.req.payload.CreateAssetAccountPayload;
 
 public class CreateAssetAccountPayloadBuilder extends CreateAssetAccountPayload {
 
   public CreateAssetAccountPayloadBuilder() {
     this.feeRate = FeeConstant.DEFAULT_FEE_RATE;
-    this.udtHashes = new HashSet<>(2, 1);
+    this.from = new HashSet<>(2, 1);
   }
 
-  public void keyAddress(String keyAddress) {
-    this.keyAddress = keyAddress;
+  public void item(Item item) {
+    this.item = item;
   }
 
-  public void addUdtHash(String udtHash) {
-    this.udtHashes.add(udtHash);
+  public void addFrom(Item from) {
+    this.from.add(from);
+  }
+
+  public void assetInfo(AssetInfo assetInfo) {
+    this.assetInfo = assetInfo;
+  }
+
+  public void accountNumber(BigInteger accountNumber) {
+    this.accountNumber = accountNumber;
+  }
+
+  public void extraCkb(BigInteger extraCkb) {
+    this.extraCkb = extraCkb;
   }
 
   public void feeRate(BigInteger feeRate) {

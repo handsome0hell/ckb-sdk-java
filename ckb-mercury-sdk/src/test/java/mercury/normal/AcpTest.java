@@ -3,8 +3,6 @@ package mercury.normal;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.HashSet;
 import mercury.SignUtils;
 import mercury.constant.AddressWithKeyHolder;
 import mercury.constant.CkbNodeFactory;
@@ -13,12 +11,12 @@ import mercury.constant.UdtHolder;
 import org.junit.jupiter.api.Test;
 import org.nervos.ckb.type.transaction.Transaction;
 import org.nervos.mercury.model.TransferPayloadBuilder;
-import org.nervos.mercury.model.req.Action;
-import org.nervos.mercury.model.req.FromKeyAddresses;
-import org.nervos.mercury.model.req.FromNormalAddresses;
+import org.nervos.mercury.model.common.AssetInfo;
+import org.nervos.mercury.model.req.From;
+import org.nervos.mercury.model.req.Mode;
 import org.nervos.mercury.model.req.Source;
-import org.nervos.mercury.model.req.ToKeyAddress;
-import org.nervos.mercury.model.req.ToNormalAddress;
+import org.nervos.mercury.model.req.To;
+import org.nervos.mercury.model.req.item.Address;
 import org.nervos.mercury.model.resp.TransactionCompletionResponse;
 
 /** @author zjh @Created Date: 2021/7/23 @Description: @Modify by: */
@@ -29,11 +27,10 @@ public class AcpTest {
   @Test
   void testFromAcp() {
     TransferPayloadBuilder builder = new TransferPayloadBuilder();
-    builder.udtHash(UdtHolder.UDT_HASH);
-    builder.from(new FromNormalAddresses(new HashSet<>(Arrays.asList(acpAddress))));
-    builder.addItem(
-        new ToKeyAddress(AddressWithKeyHolder.testAddress2(), Action.pay_by_from),
-        new BigInteger("100"));
+    builder.assetInfo(AssetInfo.newUdtAseet(UdtHolder.UDT_HASH));
+    builder.addFrom(From.newFrom(new Address(acpAddress), Source.Free));
+    builder.addTo(
+        To.newTo(AddressWithKeyHolder.testAddress2(), Mode.HoldByFrom, new BigInteger("100")));
 
     try {
       TransactionCompletionResponse s =
@@ -52,12 +49,9 @@ public class AcpTest {
   @Test
   void testToAcp() {
     TransferPayloadBuilder builder = new TransferPayloadBuilder();
-    builder.udtHash(UdtHolder.UDT_HASH);
-    builder.from(
-        new FromKeyAddresses(
-            new HashSet<>(Arrays.asList(AddressWithKeyHolder.testAddress0())),
-            Source.unconstrained));
-    builder.addItem(new ToNormalAddress(acpAddress), new BigInteger("100"));
+    builder.assetInfo(AssetInfo.newUdtAseet(UdtHolder.UDT_HASH));
+    builder.addFrom(From.newFrom(new Address(AddressWithKeyHolder.testAddress0()), Source.Free));
+    builder.addTo(To.newTo(acpAddress, Mode.HoldByFrom, new BigInteger("100")));
 
     try {
       TransactionCompletionResponse s =

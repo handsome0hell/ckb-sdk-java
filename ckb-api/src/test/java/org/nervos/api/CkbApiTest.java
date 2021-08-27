@@ -18,20 +18,15 @@ import org.nervos.indexer.model.resp.CellCapacityResponse;
 import org.nervos.mercury.DefaultMercuryApi;
 import org.nervos.mercury.MercuryApi;
 import org.nervos.mercury.model.GetBalancePayloadBuilder;
-import org.nervos.mercury.model.req.KeyAddress;
-import org.nervos.mercury.model.req.NormalAddress;
-import org.nervos.mercury.model.req.QueryAddress;
+import org.nervos.mercury.model.common.AssetInfo;
+import org.nervos.mercury.model.req.item.Address;
 import org.nervos.mercury.model.resp.GetBalanceResponse;
 
 /** @author zjh @Created Date: 2021/7/25 @Description: @Modify by: */
 public class CkbApiTest {
 
   private String rpcAddress = "http://127.0.0.1:8116";
-  Gson g =
-      new GsonBuilder()
-          .registerTypeAdapter(QueryAddress.class, new KeyAddress(""))
-          .registerTypeAdapter(QueryAddress.class, new NormalAddress(""))
-          .create();
+  Gson g = new GsonBuilder().create();
 
   @Test
   void testCkbIndexerApi() {
@@ -91,7 +86,8 @@ public class CkbApiTest {
     try {
 
       GetBalancePayloadBuilder builder = new GetBalancePayloadBuilder();
-      builder.address(new KeyAddress("ckt1qyq28wze3cw48ek9az0g4jmtfs6d8td38u4s6hp2s0"));
+      builder.item(new Address("ckt1qyq28wze3cw48ek9az0g4jmtfs6d8td38u4s6hp2s0"));
+      builder.addAssetInfo(AssetInfo.newCkbAseet());
 
       System.out.println(g.toJson(builder.build()));
 

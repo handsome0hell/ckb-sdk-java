@@ -1,19 +1,23 @@
 package org.nervos.mercury.model.resp;
 
 import com.google.gson.annotations.SerializedName;
+import java.math.BigInteger;
+import org.nervos.mercury.model.common.AssetInfo;
 
 /** @author zjh @Created Date: 2021/7/16 @Description: @Modify by: */
 public class BalanceResponse {
 
-  @SerializedName("key_address")
-  public String keyAddress;
+  @SerializedName("address")
+  public String address;
 
-  @SerializedName("udt_hash")
-  public String udtHash;
+  @SerializedName("asset_info")
+  public AssetInfo assetInfo;
 
-  public String unconstrained;
+  public BigInteger free;
 
-  public String fleeting;
+  public BigInteger occupied;
 
-  public String locked;
+  public BigInteger feddzed;
+
+  public BigInteger claimable;
 }

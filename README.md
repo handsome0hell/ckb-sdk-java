@@ -135,14 +135,13 @@ TODO
 4. [`query_generic_transactions` example](./ckb-mercury-sdk/src/test/java/mercury/QueryGenericTransactionsPagesTest.java)
 5. [`register_addresses` example](./ckb-mercury-sdk/src/test/java/mercury/RegisterAddressesTest.java)
 6. [`build_transfer_transaction` example](./ckb-mercury-sdk/src/test/java/mercury/TransferCompletionTest.java)
-7. [`build_transfer_transaction` by action example](./ckb-mercury-sdk/src/test/java/mercury/ActionTest.java)
+7. [`build_transfer_transaction` by Mode example](./ckb-mercury-sdk/src/test/java/mercury/ActionTest.java)
 8. [`build_transfer_transaction` by source example](./ckb-mercury-sdk/src/test/java/mercury/SourceTest.java)
 9. [`build_transfer_transaction` by normal address example1](./ckb-mercury-sdk/src/test/java/mercury/normal/AcpTest.java)
 10. [`build_transfer_transaction` by normal address example2](./ckb-mercury-sdk/src/test/java/mercury/normal/ChequeTest.java)
 11. [`build_transfer_transaction` by normal address example3](./ckb-mercury-sdk/src/test/java/mercury/normal/Secp256k1Test.java)
-12. [`build_asset_account_creation_transaction` example](./ckb-mercury-sdk/src/test/java/mercury/BuildAssetCollectionTransactionTest.java)
-13. [`build_asset_collection_transaction` example](./ckb-mercury-sdk/src/test/java/mercury/CreateAssetAccountTest.java)
-14. [`fee_rate` example](./ckb-mercury-sdk/src/test/java/mercury/FeeRateTest.java)
+12. [`build_asset_account_creation_transaction` example](./ckb-mercury-sdk/src/test/java/mercury/CreateAssetAccountTest.java)
+13. [`fee_rate` example](./ckb-mercury-sdk/src/test/java/mercury/FeeRateTest.java)
 
 ### 3. ckb-indexer RPC
 

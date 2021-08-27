@@ -3,24 +3,23 @@ package mercury.normal;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import mercury.SignUtils;
 import mercury.constant.AddressWithKeyHolder;
 import mercury.constant.CkbNodeFactory;
 import mercury.constant.MercuryApiFactory;
+import mercury.constant.UdtHolder;
 import org.junit.jupiter.api.Test;
 import org.nervos.ckb.type.transaction.Transaction;
 import org.nervos.ckb.utils.address.AddressTools;
 import org.nervos.mercury.model.GetBalancePayloadBuilder;
 import org.nervos.mercury.model.TransferPayloadBuilder;
-import org.nervos.mercury.model.req.Action;
-import org.nervos.mercury.model.req.FromKeyAddresses;
-import org.nervos.mercury.model.req.FromNormalAddresses;
-import org.nervos.mercury.model.req.KeyAddress;
+import org.nervos.mercury.model.common.AssetInfo;
+import org.nervos.mercury.model.req.From;
+import org.nervos.mercury.model.req.Mode;
 import org.nervos.mercury.model.req.Source;
-import org.nervos.mercury.model.req.ToKeyAddress;
+import org.nervos.mercury.model.req.To;
+import org.nervos.mercury.model.req.item.Address;
 import org.nervos.mercury.model.resp.GetBalanceResponse;
 import org.nervos.mercury.model.resp.TransactionCompletionResponse;
 
@@ -64,8 +63,8 @@ public class ChequeTest {
     try {
 
       GetBalancePayloadBuilder builder = new GetBalancePayloadBuilder();
-      builder.address(new KeyAddress(addr));
-      builder.addUdtHash(udtHash);
+      builder.item(new Address(addr));
+      builder.addAssetInfo(AssetInfo.newUdtAseet(UdtHolder.UDT_HASH));
 
       return MercuryApiFactory.getApi().getBalance(builder.build());
 
@@ -78,11 +77,9 @@ public class ChequeTest {
 
   private void issuingChequeCell() {
     TransferPayloadBuilder builder = new TransferPayloadBuilder();
-    builder.udtHash(udtHash);
-    builder.from(
-        new FromKeyAddresses(new HashSet<>(Arrays.asList(senderAddress)), Source.unconstrained));
-    builder.addItem(
-        new ToKeyAddress(chequeCellReceiverAddress, Action.lend_by_from), new BigInteger("100"));
+    builder.assetInfo(AssetInfo.newUdtAseet(UdtHolder.UDT_HASH));
+    builder.addFrom(From.newFrom(new Address(senderAddress), Source.Free));
+    builder.addTo(To.newTo(chequeCellReceiverAddress, Mode.HoldByTo, new BigInteger("100")));
 
     System.out.println(new Gson().toJson(builder.build()));
 
@@ -113,14 +110,13 @@ public class ChequeTest {
 
   private void claimChequeCell() {
     TransferPayloadBuilder builder = new TransferPayloadBuilder();
-    builder.udtHash(udtHash);
-    builder.from(
-        new FromNormalAddresses(
-            new HashSet<>(
-                Arrays.asList(
-                    AddressTools.generateChequeAddress(
-                        senderAddress, chequeCellReceiverAddress)))));
-    builder.addItem(new ToKeyAddress(receiverAddress, Action.pay_by_from), new BigInteger("99"));
+    builder.assetInfo(AssetInfo.newUdtAseet(UdtHolder.UDT_HASH));
+    builder.addFrom(
+        From.newFrom(
+            new Address(
+                AddressTools.generateChequeAddress(senderAddress, chequeCellReceiverAddress)),
+            Source.Claimable));
+    builder.addTo(To.newTo(receiverAddress, Mode.HoldByFrom, new BigInteger("99")));
 
     System.out.println(new Gson().toJson(builder.build()));
 
